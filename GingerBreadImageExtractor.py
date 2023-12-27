@@ -225,20 +225,6 @@ class Image:
     def pixels(self):
         return self._pixels
 
-    def debug_show(self):
-        from PIL import Image, ImageDraw
-
-        canvas = Image.new("RGB", (self._width, self._height))
-        draw = ImageDraw.Draw(canvas)
-
-        for y in range(self._height):
-            for x in range(self._width):
-                pixel = self._pixels[y][x]
-            
-                draw.point((x, y), fill=(pixel.r, pixel.g, pixel.b))
-
-        canvas.show()  # Opens the canvas in the default image viewer
-
 def pixels_morton_to_row_major(pixels: Sequence[Pixel], side_length: int) -> List[Pixel]:
     "Given a rectangular image, returns an arry of reordered pixels (Morton order -> row-major)"
 
@@ -249,22 +235,6 @@ def pixels_morton_to_row_major(pixels: Sequence[Pixel], side_length: int) -> Lis
         result[x + side_length * y] = pixels[i]
 
     return result
-
-def debug_open_image(pixel_bytes: bytes, side_length: int):
-    from PIL import Image, ImageDraw
-
-    canvas = Image.new("RGB", (512, 512))
-    draw = ImageDraw.Draw(canvas)
-
-    n_bytes = len(pixel_bytes)
-
-    for i in range(0, n_bytes, 3):
-        y = int(i / 3 / side_length)
-        x = i / 3 - y * side_length
-        
-        draw.point((x, y), fill=(pixel_bytes[i], pixel_bytes[i + 1], pixel_bytes[i + 2]))
-
-    canvas.show()  # Opens the canvas in the default image viewer
 
 class BitmapFileHeader:
     SIZE = 14
