@@ -1,0 +1,6 @@
+# VS code
+launch.json
+settings.json
+
+# Python
+*.pyc
